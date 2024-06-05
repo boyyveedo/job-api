@@ -10,7 +10,7 @@ const morgan = require('morgan')
 const helmet = require('helmet')
 const cors = require('cors')
 const xss = require('xss-clean')
-const rateLimiter = require('express-rate-limit')
+const rateLimit = require('express-rate-limit')
 require('dotenv').config()
 
 const limiter = rateLimit({
@@ -20,7 +20,7 @@ const limiter = rateLimit({
     legacyHeaders: false, // Disable the X-RateLimit-* headers
     store: undefined, // Add a store option if you want to use Redis or other stores
 });
-pp.use(limiter);
+app.use(limiter);
 app.use(express.json());
 app.use(morgan('dev'));
 app.use(helmet())
@@ -30,7 +30,7 @@ app.use(xss())
 
 
 app.get('/', (req, res) => {
-    console.log("Welcome to home of jobs")
+    res.send('<h1>Jobs API</h1>');
 });
 
 app.use('/api/v1/jobs', authenticateUser, jobs)
